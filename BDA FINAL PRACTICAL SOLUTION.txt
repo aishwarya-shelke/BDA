@@ -1,0 +1,502 @@
+[hadoop@client34 ~]$ hadoop version
+[hadoop@client36 kalyani]$ cd $HADOOP_HOME/sbin/
+[hadoop@client36 sbin]$ ./start-dfs.sh
+[hadoop@client36 sbin]$ ./start-yarn.sh
+[hadoop@client36 sbin] cd sbin
+
+//local folder name-local   //local file-local1.txt
+//hadoop folder name-hadoop1  //hadoop file -hfile.txt
+//move krychi na local kadun hadoop la tich name lochad1.txt
+//move from hadoop to local la hadloc1.txt
+
+
+
+SLIP 1
+
+a) Remove a demo directory from Hadoop environment. (Create a demo directory).
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+[hadoop@client33 sbin]$ hadoop fs -ls /
+hadoop@client33 sbin]$hadoop fs -rm /demo                          or   hadoop fs -rmr /demo
+
+[hadoop@client33 sbin]$ hadoop fs -ls /
+
+b)Create a student.txt file in Hadoop environment and copy this file in root directory.
+
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+//create student.txt file in local folder write content into it.
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/student.txt /demo
+hadoop@client33 sbin$ hadoop fs -copyToLocal /demo/student.txt /opt/hadoop/Desktop/local
+
+c)c) display the content of student.txt file.
+[hadoop@client33 sbin]$ hadoop fs -cat /demo/student.txt
+
+d)expunge command
+hadoop@client33 sbin$ hadoop fs -rm /demo 
+hadoop@client33 sbin$  hadoop fs -expunge
+
+d)df command
+hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+[hadoop@client36 Shreyas]$ hadoop fs -df               or  $ hadoop fs -df -h
+
+-------------------------------------------------------------------------
+SLIP 2 
+
+) Show practical examples to list files, Insert data, retrieving data,append to file and
+shutting down HDFS.
+
+1)list file
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/student.txt /demo
+[hadoop@client33 sbin]$ hadoop fs -ls /demo
+
+2)insert data
+
+hadoop@client33 sbin$ hadoop fs -copyToLocal /demo/student.txt /opt/hadoop/Desktop/local
+[hadoop@client33 sbin]$ hadoop fs -cat /opt/hadoop/Desktop/local/student.txt
+
+3)retrive data
+// make one file on local folder local2.txt
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/local2.txt /demo1
+
+
+[hadoop@client33 sbin]$ hadoop fs -ls /demo1
+[hadoop@client33 sbin]$ hadoop fs -cat /demo1/local2.txt
+
+4)appendto file
+hadoop fs -appendToFile /opt/hadoop/Desktop/local/student.txt /demo1/local2.txt
+
+5)Shutting down hdfs
+   or $./stop-dfs.sh
+----------------------------------------------------------------------------------------------------------
+SLIP 3
+a) Create a emp.txt file in root directory and move this file in Hadoop environment.
+//create using terminal emp.txt write content into it
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+
+[hadoop@client33 sbin]$ hadoop fs -moveFromLocal /opt/hadoop/Desktop/local/emp.txt /demo       or move only witin hdfs 
+[hadoop@client33 sbin]$ hadoop fs -ls /demo
+
+
+b) display the statistics about the file.(use default format).
+[hadoop@client25 ~]$ hadoop fs -stat /demo/emp.txt
+
+
+c)c) change the permission of the file
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+[hadoop@client25 ~]$ hadoop fs -chmod 0777 /demo/emp.txt
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+d)d) implement checksum command
+//create emp2.txt in local using terminal
+[hadoop@client25 ~]$ hadoop fs -checksum /opt/hadoop/Desktop/local/emp2.txt
+
+e)e) delete emp.txt file.
+
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+hadoop@client33 sbin$ hadoop fs -rm /demo/emp.txt
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+-------------------------------------------------------------------------------------------------------------
+SLIP 4
+
+a) Create a emp.txt file in root directory and move this file in Hadoop environment
+// create emp/txt in local using terminal write something into it
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+[hadoop@client33 sbin]$ hadoop fs -mv /opt/hadoop/Desktop/local/emp.txt /demo  
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+b)b) Display last few lines of the above emp.txt file
+
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /demo/emp.txt
+
+c)
+c) du command
+[hadoop@client36 Shreyas]$ hadoop fs -du /                  or $hadoop fs -du -s /Hospital
+
+d)df command
+hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+[hadoop@client36 Shreyas]$ hadoop fs -df               or  $ hadoop fs -df -h
+
+e)) fsck
+hadoop fsck /demo/                                                 /////////////////////////////////
+--------------------------------------------------------------------------------------------------------------------
+
+SLIP 5
+a. count the number of files and directories in HDFS.(Use options for the command)
+[[hadoop@client25 ~]$ hadoop fs -count -h  /demo   //humen readable format
+hadoop@client25 ~]$ hadoop fs -count -v /demo   //show header line
+
+b)find
+hadoop@client33 sbin]$ hadoop fs -mkdir /demo/exm.txt
+//move kr local madhun
+
+[hadoop@client25 ~]$ hadoop fs -find / -name exm.txt -print  /////////////////////////////
+
+
+c. getmerge
+hadoop fs -touchz /demo/d1.txt
+hadoop fs -touchz /demo/d2.txt
+// using terminal create local file xyz.txt
+hadoop[hadoop@client25 ~]$ hadoop fs -ls /demo/
+@client33 sbin]$hadoop fs -getmerge demo ~/xyz.txt                  //////////////////////////////////////////////
+ [hadoop@client25 ~]$hadoop fs -cat /local/xyz.txt
+
+d)usage
+
+[hadoop@client25 ~]$ hadoop fs -usage ls
+
+e) test
+  [hadoop@client29 Assignment2]$ hadoop fs -test -e /test/test.sdf    //test.sdf is  file
+[hadoop@client29 Assignment2]$ echo $?
+1
+
+----------------------------------------------------------------------------------------
+SLIP 6
+
+a) Create a studentdata.txt file in Hadoop environment and move this file to root
+directory.
+
+hadoop[hadoop@client25 ~]$ hadoop fs -mkdir /demo/studentdata.txt
+[hadoop@client33 sbin]$ hadoop fs -moveToLocal /demo/studentdata.txt /opt/hadoop/Desktop/local
+
+  b) put
+// create local emp2.txt
+hadoop@client33 sbin$ hadoop fs -put /opt/hadoop/Desktop/local/emp2.txt /demo
+
+c)c) tail
+//create on local with content emp.txt
+
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /opt/hadoop/Desktop/local/emp.txt
+
+d) fsck
+hadoop fsck /demo/
+
+e)
+
+e) display the list of files in specified directory.(Create files and directory accordingly.
+[hadoop@client25 ~]$ hadoop fs -ls /demo
+
+
+
+-----------------------------------------------------------------------------------
+SLIP 7a
+A) mkdir
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+
+b)b) copy the demo.txt in hadoop environment.
+// create in terminal local
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/demo.txt /demo1
+
+c)c) move the directory into another directory.
+
+// create one local tfolder xyz folder
+hadoop@client33 sbin$ hadoop fs -moveFromLocal /opt/hadoop/Desktop/local/xyz /demo
+// create one local tfolder pqr folder
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo1
+
+[hadoop@client33 sbin]$ hadoop fs -mv /demo/xyz /demo1
+[hadoop@client25 ~]$ hadoop fs -ls /demo1
+
+
+
+d) tail
+c)c) tail
+//create on local with content
+
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /opt/local/emp.txt
+
+e) delete file created in hadoop environment.
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+hadoop@client33 sbin$ hadoop fs -rm or (-rmr) /demo/emp.txt
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+
+------------------------------------------------------------------
+SLIP 8
+a)changing the group of ‘sample.zip’ file of the HDFS file system.
+hadoop fs -touchz /hadoop/sample.zip
+hadoop fs -ls /hadoop/
+hadoop fs -chgrp hello /hadoop/sample.zip
+hadoop fs -ls /hadoop/
+
+b) changing the owner of a file name sample.
+//create sample folder/ and sample.txt on hadoop
+[hadoop@client36 Shreyas]$ hadoop fs -ls /
+
+[hadoop@client36 Shreyas]$ hadoop fs -chown sdf /sample/sample.txt
+[hadoop@client36 Shreyas]$ hadoop fs -ls /
+
+c)
+c) prints a summary of the amount of disk usage
+
+[hadoop@client25 ~]$ hadoop fs -du -s /demo/d1.txt
+
+d) show last modified time of director
+
+[hadoop@client25 ~]$ hadoop fs -stat /demo
+2022-12-01 08:01:49
+e) implement test command
+[hadoop@client29 Assignment2]$ hadoop fs -test -e /test/test.sdf
+[hadoop@client29 Assignment2]$ echo $?
+1
+
+----------------------------------------------------------------------
+slip 9
+a) create empty file in hdfs
+$hadoop ds -touchz /had/sample.zip
+ [hadoop@client25 ~]$hadoop fs -cat /had/sample.zip
+
+
+b) copy sample.txt from local environment to HDFS.
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/student.txt /demo
+
+
+
+
+c) print the content of sample.txt file.
+// v=create sample.txt on terminal
+ [hadoop@client25 ~]$hadoop fs -cat /had/sample.txt
+
+d)display the total size of file.
+
+[hadoop@client36 Shreyas]$ hadoop fs -du -s /demo/d1.txt              or  $ hadoop fs -du -s /demo/d1.txt
+or
+//copy xyz.txt to demo
+[hadoop@client36 Shreyas]$ hadoop fs -ls /demo/xyz.txt
+
+e) chmod command
+[hadoop@client25 ~]$ hadoop fs -ls /test/
+Found 1 items
+-rw-r--r--   3 hadoop supergroup         31 2022-12-01 13:31 /test/test.txt
+
+[hadoop@client25 ~]$ hadoop fs -chmod 0777 /test/test.txt
+
+[hadoop@client25 ~]$ hadoop fs -ls /test/
+Found 1 items
+-rwxrwxrwx   3 hadoop supergroup         31 2022-12-01 13:31 /test/test.txt
+---------------------------------------------------------------------------
+SLIP 10
+a) copy one file from one directory to another within HDFS.
+[hadoop@client36 Shreyas]$ hadoop fs -ls /demo/a2.txt
+                         $hadoop fs -mkdir /demo1
+[hadoop@client36 Shreyas]$ hadoop fs -cp /demo/a2.txt /demo1
+
+[hadoop@client36 Shreyas]$ hadoop fs -ls /demo1
+
+b) show the statistics about the directory in the specified format.(%b,%g,%u,%n)
+hadoop fs -stat %b /demo/temp.txt
+hadoop fs -stat %g /demo/temp.txt
+hadoop fs -stat %u /demo/temp.txt
+hadoop fs -stat %n /demo/temp.txt
+
+c)c) implement text comman
+hadoop@client25 ~]$ hadoop fs -text /demo/test.zip
+Test file.
+This a second line.
+
+ 
+d) fsck
+hadoop fsck /demo/
+
+e) cat command
+) create in local file
+
+ [hadoop@client25 ~]$hadoop fs -cat /opt/local/sample.zip
+
+
+-----------------------------------------------------------------------------------
+SLIP 11
+
+a) display summary of the amount of disk usage of all files.
+// create file in local directory using terminal
+[hadoop@client36 Shreyas]$ hadoop fs -du /opt/hadoop/Desktop/local/stud.txt
+
+
+b) change the permission of the file.
+
+
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+[hadoop@client25 ~]$ hadoop fs -chmod 0777 /demo/emp.txt
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+c) Create an employee.txt file with some content and Moves this file from local file
+system to the Hadoop file system
+//create it using terminal write content into it. 
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+
+[hadoop@client33 sbin]$ hadoop fs -mv /opt/hadoop/Desktop/local/emp.txt /demo       or move only witin hdfs 
+[hadoop@client33 sbin]$ hadoop fs -ls /demo
+
+d)d) copy one file from one directory to another within HDFs
+copy one file from one directory to another within HDFS.
+[hadoop@client36 Shreyas]$ hadoop fs -ls /demo1
+
+[hadoop@client36 Shreyas]$ hadoop fs -cp /demo/a2.txt /demo1
+
+[hadoop@client36 Shreyas]$ hadoop fs -ls /demo1
+
+
+e) display last 1kb data of employee.txt file.
+
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /test/h.txt
+-------------------------------------------------------------------------------------------------
+SLIP 12
+
+a. create patient_detalis.txt file in Hospital directory and move this file in another
+directory within hdfs.
+$hadoop fs -touchz /Hospital/patient_deteails.txt
+
+$ hadoop fs -touchz /patient
+$hadoop fs -ls /patient/
+$hadoop fs -mv /Hospital/patient_details.txt /patient
+$ hadoop fs -ls /patient/
+
+b. display the total size of Hospital directory.
+[hadoop@client36 Shreyas]$ hadoop fs -du /Hospital or   $hadoop fs -du -s /Hospital
+
+c. show the statistics about the directory in the specified format.(%o,%r,%u,%y)
+
+ hadoop fs -touchz /demo
+
+hadoop fs -stat %0 /demo
+hadoop fs -stat %r /demo
+hadoop fs -stat %u /demo
+hadoop fs -stat %y /demo
+
+
+
+
+
+d) list of all files in hospital directory.(add and list a minimum 4 files).
+
+$hadoop fs -touchz /Hospital/docter_deteails.txt
+
+$hadoop fs -touchz /Hospital/staff_deteails.txt
+
+$hadoop fs -touchz /Hospital/nurse_deteails.txt
+$hadoop fs -touchz /Hospital/reception_deteails.txt
+
+
+[hadoop@client36 Shreyas]$ hadoop fs -ls /Hospital
+
+
+e. delete hospital directory.
+[hadoop@client25 ~]$ hadoop fs -ls /
+
+hadoop@client33 sbin$ hadoop fs -rm or (-rmr) /Hospital
+[hadoop@client25 ~]$ hadoop fs -ls /
+
+
+----------------------------------------------------------------------------------------------
+SLIP 13
+
+
+
+a) Create a college.txt file in root directory and move this file in Hadoop environment.
+//create it using terminal write content into it. 
+[hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+
+
+[hadoop@client33 sbin]$ hadoop fs -mv /opt/hadoop/Desktop/local/emp.txt /demo       or move only witin hdfs 
+[hadoop@client33 sbin]$ hadoop fs -ls /demo
+
+b) Count the number of files and directories in HDFS.(use specified format as option
+-v,-h,-q)
+[[hadoop@client25 ~]$ hadoop fs -count -h  /demo   //humen readable format
+hadoop@client25 ~]$ hadoop fs -count -v /demo   //show header line
+hadoop@client25 ~]$ hadoop fs -count -q /demo   //show header line
+
+c) du command
+
+// create file in local directory using terminal
+[hadoop@client36 Shreyas]$ hadoop fs -du /opt/hadoop/Desktop/local/stud.txt
+
+d) implement find command for college.txt
+hadoop@client33 sbin]$ hadoop fs -mkdir /demo/college.txt
+//move kr local madhun
+
+[hadoop@client25 ~]$ hadoop fs -find / -name college.txt -print
+
+e)e) Remove a bank_details directory from Hadoop environment. (Create a bank_details
+directory).
+
+[hadoop@client33 sbin]$ hadoop fs -mkdir /bank_details
+[hadoop@client25 ~]$ hadoop fs -ls /
+hadoop@client33 sbin$ hadoop fs -rm or (-rmr) /bank_details
+[hadoop@client25 ~]$ hadoop fs -ls /
+----------------------------------------------------------------------------------
+SLIP 14
+
+
+a) Create a teacher.txt file in Hadoop environment and copy this file in root directory.
+
+hadoop@client33 sbin]$ hadoop fs -mkdir /demo
+//create student.txt file in local folder write content into it.
+hadoop@client33 sbin$ hadoop fs -copyFromLocal /opt/hadoop/Desktop/local/student.txt /demo
+hadoop@client33 sbin$ hadoop fs -copyToLocal /demo/student.txt /opt/hadoop/Desktop/local
+
+
+b) display the content of teacher.txt file.( local create kr file move kr hadoop la)
+v=create sample.txt on terminal
+ [hadoop@client25 ~]$hadoop fs -cat /opt/hadoop/Desktop/local/teacher.txt
+
+c) display the list of files in specified directory.(Create files and directory accordingly.)
+//create file locally
+[hadoop@client25 ~]$ hadoop fs -ls /
+
+d) implement tail command on teacher.txt file.
+//local kr
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /test/teacher.txt
+
+
+
+e) 
+[hadoop@client25 ~]$ hadoop fs -ls /
+hadoop@client33 sbin$ hadoop fs -rm or (-rmr) /local/teacher.txt
+[hadoop@client25 ~]$ hadoop fs -ls /
+
+-------------------------------------------------------------------------------------
+SLIP 15
+a) create and move the bank directory into another directory within hadoop environment.
+
+
+$ hadoop fs -touchz /bank
+$ hadoop fs -touchz /customer
+[hadoop@client33 sbin]$ hadoop fs -mv /bank /customer
+$ hadoop fs -ls /customer/
+
+
+b) change the permission of the file.
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+[hadoop@client25 ~]$ hadoop fs -chmod 0777 /demo/emp.txt
+[hadoop@client25 ~]$ hadoop fs -ls /demo/
+
+
+c) Display last few lines of the above customer.txt file
+//local kr
+[hadoop@client36 Shreyas]$ hadoop fs -tail -f /desktop/local/h.txt
+
+d) change the replication factor of customer.txt file in HDFS
+
+[hadoop@client36 Shreyas]$ hadoop fs -setrep 5 /hdfs/custmer.txt
+Replication 5 set: /test/a2.txt
+Replication 5 set: /test/a3.txt
+Replication 5 set: /test/hello.txt
+
+e) delete bank directory from HDFS.
+
+e) re[hadoop@client33 sbin]$ hadoop fs -mkdir /bank
+[hadoop@client25 ~]$ hadoop fs -ls /
+hadoop@client33 sbin$ hadoop fs -rm or (-rmr) /bank
+[hadoop@client25 ~]$ hadoop fs -ls /
+
+
+
